@@ -1,20 +1,19 @@
 package com.jtspringproject.JtSpringProject.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name="CATEGORY")
 public class Category {
+	private int category_counter = 0;
 	@Id
 	@Column(name = "category_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
+
 	private String name;
-	
+
+	public Category(){
+		this.id = category_counter++;
+	}
 	public int getId() {
 		return id;
 	}

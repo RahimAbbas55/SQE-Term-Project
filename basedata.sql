@@ -21,7 +21,7 @@ INSERT INTO CATEGORY(name) VALUES ('Fruits'),
                                   ('Drinks'),
                                   ('Sweets'),
                                   ('Other');
-
+drop table category;
 # create the customer table
 CREATE TABLE IF NOT EXISTS CUSTOMER(
 id       int unique key not null auto_increment primary key,
@@ -50,6 +50,7 @@ category_id int null,
 customer_id int null
 );
 
+drop table product;
 # insert default products
 INSERT INTO PRODUCT(description, image, name, price, quantity, weight, category_id) VALUES
                                                                                         ('Fresh and juicy', 'https://freepngimg.com/save/9557-apple-fruit-transparent/744x744', 'Apple', 3, 40, 76, 1),
@@ -62,3 +63,6 @@ CREATE INDEX FK7u438kvwr308xcwr4wbx36uiw
 
 CREATE INDEX FKt23apo8r9s2hse1dkt95ig0w5
     ON PRODUCT (customer_id);
+    
+    SELECT * 
+    FROM customer;
