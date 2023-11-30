@@ -7,6 +7,7 @@ public class Category {
 	private int category_counter = 0;
 	@Id
 	@Column(name = "category_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
@@ -29,5 +30,5 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }
