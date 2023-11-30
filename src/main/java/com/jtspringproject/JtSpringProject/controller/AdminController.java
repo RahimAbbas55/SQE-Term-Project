@@ -42,7 +42,7 @@ public class AdminController {
 	public String returnIndex() {
 		adminlogcheck =0;
 		usernameforclass = "";
-		return "userLogin";
+		return "adminlogin";
 	}
 	
 	
@@ -64,18 +64,19 @@ public class AdminController {
 		
 		return "adminlogin";
 	}
-	@GetMapping("Dashboard")
+	@GetMapping("/Dashboard")
 	public String adminHome(Model model) {
 		if(adminlogcheck==1)
 			return "adminHome";
 		else
-			return "redirect:/admin/login";
+			return "redirect:/admin/loginvalidate";
 	}
+
 	@GetMapping("/loginvalidate")
 	public String adminlog(Model model) {
-		
 		return "adminlogin";
 	}
+
 	@RequestMapping(value = "loginvalidate", method = RequestMethod.POST)
 	public ModelAndView adminlogin( @RequestParam("username") String username, @RequestParam("password") String pass) {
 		
@@ -93,6 +94,7 @@ public class AdminController {
 			return mv;
 		}
 	}
+
 	@GetMapping("categories")
 	public ModelAndView getcategory() {
 		if(adminlogcheck==0){
@@ -106,6 +108,7 @@ public class AdminController {
 			return mView;
 		}
 	}
+
 	@RequestMapping(value = "categories",method = RequestMethod.POST)
 	public String addCategory(@RequestParam("categoryname") String category_name)
 	{
