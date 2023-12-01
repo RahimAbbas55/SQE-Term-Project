@@ -15,10 +15,6 @@ public class categoryDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory sf) {
-		this.sessionFactory = sf;
-	}
-
 	@Transactional
 	public Category addCategory(String name) {
 		Category category = new Category();
@@ -29,33 +25,35 @@ public class categoryDao {
 
 	@Transactional
 	public List<Category> getCategories() {
-		return this.sessionFactory.getCurrentSession().createQuery("from CATEGORY").list();
+		return this.sessionFactory.getCurrentSession().createQuery("from Category").list();
 	}
 
 	@Transactional
-	public Boolean deletCategory(int id) {
+	public boolean deleteCategory(int id) {
+		Session session = this.sessionFactory.openSession();
+		Category category = session.get(Category.class, id);
 
-		Session session = this.sessionFactory.getCurrentSession();
-		Object persistanceInstance = session.load(Category.class, id);
-
-		if (persistanceInstance != null) {
-			session.delete(persistanceInstance);
+		if (category != null) {
+			session.delete(category);
+			session.close();
 			return true;
 		}
+		session.close();
 		return false;
 	}
 
 	@Transactional
 	public Category updateCategory(int id, String name) {
 		Category category = this.sessionFactory.getCurrentSession().get(Category.class, id);
-		category.setName(name);
-
-		this.sessionFactory.getCurrentSession().update(category);
+		if (category != null) {
+			category.setName(name);
+			this.sessionFactory.getCurrentSession().update(category);
+		}
 		return category;
 	}
 
 	@Transactional
 	public Category getCategory(int id) {
-		return this.sessionFactory.getCurrentSession().get(Category.class,id);
+		return this.sessionFactory.getCurrentSession().get(Category.class, id);
 	}
 }

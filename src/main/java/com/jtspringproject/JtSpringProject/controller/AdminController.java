@@ -31,11 +31,15 @@ public class AdminController {
 	@Autowired
 	private userService userService;
 	@Autowired
-	private categoryService categoryService;
+	private final categoryService categoryServicee;
 	
 	@Autowired
 	private productService productService;
-	
+
+	public AdminController(categoryService categoryServicee) {
+		this.categoryServicee = categoryServicee;
+	}
+
 	int adminlogcheck = 0;
 	String usernameforclass = "";
 	@RequestMapping(value = {"/","/logout"})
@@ -95,47 +99,44 @@ public class AdminController {
 		}
 	}
 
-	@GetMapping("categories")
-	public ModelAndView getcategory() {
-		if(adminlogcheck==0){
+	@GetMapping("/categories")
+	public ModelAndView getCategories() {
+		if (adminlogcheck == 0) {
 			ModelAndView mView = new ModelAndView("adminlogin");
 			return mView;
-		}
-		else {
+		} else {
 			ModelAndView mView = new ModelAndView("categories");
-			List<Category> categories = this.categoryService.getCategories();
-			mView.addObject("categories", categories);
+			mView.addObject("categories", categoryService.getCategories());
 			return mView;
 		}
 	}
 
-	@RequestMapping(value = "categories",method = RequestMethod.POST)
-	public String addCategory(@RequestParam("categoryname") String category_name)
-	{
-		System.out.println(category_name);
-		
-		Category category =  this.categoryService.addCategory(category_name);
-		if(category.getName().equals(category_name)) {
-			return "redirect:categories";
-		}else {
-			return "redirect:categories";
+	@PostMapping("/categories")
+	public String addCategory(@RequestParam("categoryname") String categoryName) {
+		Category category = categoryService.addCategory(categoryName);
+		if (category != null && category.getName().equals(categoryName)) {
+			return "redirect:/admin/categories";
+		} else {
+			return "redirect:/admin/categories";
 		}
-	}
-	
-	@GetMapping("categories/delete")
-	public ModelAndView removeCategoryDb(@RequestParam("id") int id)
-	{	
-			this.categoryService.deleteCategory(id);
-			ModelAndView mView = new ModelAndView("forward:/categories");
+
+
+		@GetMapping("/categories/delete")
+		public ModelAndView removeCategory(@RequestParam("id") int id) {
+			categoryService.deleteCategory(id);
+			ModelAndView mView = new ModelAndView("forward:/admin/categories");
 			return mView;
-	}
-	
-	@GetMapping("categories/update")
-	public String updateCategory(@RequestParam("categoryid") int id, @RequestParam("categoryname") String categoryname)
-	{
-		Category category = this.categoryService.updateCategory(id, categoryname);
-		return "redirect:/admin/categories";
-	}
+		}
+
+		@PostMapping("/categories/update")
+		public String updateCategory(@RequestParam("categoryid") int id, @RequestParam("categoryname") String categoryName) {
+			Category category = categoryService.updateCategory(id, categoryName);
+			if (category != null) {
+				return "redirect:/admin/categories";
+			} else {
+				return "redirect:/admin/categories";
+			}
+		}
 
 	
 //	 --------------------------Remaining --------------------

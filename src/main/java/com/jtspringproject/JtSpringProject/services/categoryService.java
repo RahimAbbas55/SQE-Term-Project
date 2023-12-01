@@ -8,30 +8,28 @@ import org.springframework.stereotype.Service;
 import com.jtspringproject.JtSpringProject.dao.categoryDao;
 import com.jtspringproject.JtSpringProject.models.Category;
 
-import net.bytebuddy.dynamic.DynamicType.Builder.InnerTypeDefinition;
-
 @Service
 public class categoryService {
 	@Autowired
-	private categoryDao categoryDao;
-	
+	private categoryDao categoryDaoo;
+
 	public Category addCategory(String name) {
-		return this.categoryDao.addCategory(name);
+		return this.categoryDaoo.addCategory(name);
 	}
-	
-	public List<Category> getCategories(){
-		return this.categoryDao.getCategories();
+
+	public List<Category> getCategories() {
+		return this.categoryDaoo.getCategories();
 	}
-	
-	public Boolean deleteCategory(int id) {
-		return this.categoryDao.deletCategory(id);
+
+	public boolean deleteCategory(int id) {
+		return this.categoryDaoo.deleteCategory(id);
 	}
-	
-	public Category updateCategory(int id,String name) {
-		return this.categoryDao.updateCategory(id, name);
+
+	public Category updateCategory(int id, String name) {
+		return this.categoryDaoo.updateCategory(id, name);
 	}
 
 	public Category getCategory(int id) {
-		return this.categoryDao.getCategory(id);
+		return this.categoryDaoo.getCategory(id);
 	}
 }
