@@ -122,7 +122,7 @@ public class AdminController {
 		}
 	}
 	
-	@GetMapping("categories/delete")
+	@PostMapping("categories/delete")
 	public ModelAndView removeCategoryDb(@RequestParam("id") int id)
 	{	
 			this.categoryService.deleteCategory(id);
@@ -228,65 +228,6 @@ public class AdminController {
 			mView.addObject("customers", users);
 			return mView;
 		}
-	}
-	
-	
-	@GetMapping("profileDisplay")
-	public String profileDisplay(Model model) {
-		String displayusername,displaypassword,displayemail,displayaddress;
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
-			PreparedStatement stmt = con.prepareStatement("select * from users where username = ?"+";");
-			stmt.setString(1, usernameforclass);
-			ResultSet rst = stmt.executeQuery();
-			
-			if(rst.next())
-			{
-			int userid = rst.getInt(1);
-			displayusername = rst.getString(2);
-			displayemail = rst.getString(3);
-			displaypassword = rst.getString(4);
-			displayaddress = rst.getString(5);
-			model.addAttribute("userid",userid);
-			model.addAttribute("username",displayusername);
-			model.addAttribute("email",displayemail);
-			model.addAttribute("password",displaypassword);
-			model.addAttribute("address",displayaddress);
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		System.out.println("Hello");
-		return "updateProfile";
-	}
-	
-	@RequestMapping(value = "updateuser",method=RequestMethod.POST)
-	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address) 
-	
-	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
-			
-			PreparedStatement pst = con.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");
-			pst.setString(1, username);
-			pst.setString(2, email);
-			pst.setString(3, password);
-			pst.setString(4, address);
-			pst.setInt(5, userid);
-			int i = pst.executeUpdate();	
-			usernameforclass = username;
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/index";
 	}
 
 }
