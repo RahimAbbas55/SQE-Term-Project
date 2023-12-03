@@ -31,7 +31,7 @@ import com.jtspringproject.JtSpringProject.services.cartService;
 
 @Controller
 public class UserController{
-	
+	private String usernameforclass;
 	@Autowired
 	private userService userService;
 
@@ -49,23 +49,23 @@ public class UserController{
 	{
 		return "buy";
 	}
-	
+
 
 	@GetMapping("/")
 	public String userlogin(Model model) {
-		
+
 		return "userLogin";
 	}
 	@RequestMapping(value = "userloginvalidate", method = RequestMethod.POST)
 	public ModelAndView userlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model,HttpServletResponse res) {
-		
+
 		System.out.println(pass);
 		User u = this.userService.checkLogin(username, pass);
 		System.out.println(u.getUsername());
-		if(u.getUsername().equals(username)) {	
-			
+		if(u.getUsername().equals(username)) {
+
 			res.addCookie(new Cookie("username", u.getUsername()));
-			ModelAndView mView  = new ModelAndView("index");	
+			ModelAndView mView  = new ModelAndView("index");
 			mView.addObject("user", u);
 			List<Product> products = this.productService.getProducts();
 
@@ -81,10 +81,10 @@ public class UserController{
 			mView.addObject("msg", "Please enter correct email and password");
 			return mView;
 		}
-		
+
 	}
-	
-	
+
+
 	@GetMapping("/user/products")
 	public ModelAndView getproduct() {
 
@@ -103,53 +103,114 @@ public class UserController{
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
 	{
-		
+
 		System.out.println(user.getEmail());
 		user.setRole("ROLE_NORMAL");
 		this.userService.addUser(user);
-		
+
 		return "redirect:/";
 	}
-	
-	
-	
-	   //for Learning purpose of model
-		@GetMapping("/test")
-		public String Test(Model model)
-		{
-			System.out.println("test page");
-			model.addAttribute("author","jay gajera");
-			model.addAttribute("id",40);
-			
-			List<String> friends = new ArrayList<String>();
-			model.addAttribute("f",friends);
-			friends.add("xyz");
-			friends.add("abc");
-			
-			return "test";
-		}
-		
-		// for learning purpose of model and view ( how data is pass to view)
-		
-		@GetMapping("/test2")
-		public ModelAndView Test2()
-		{
-			System.out.println("test page");
-			//create modelandview object
-			ModelAndView mv=new ModelAndView();
-			mv.addObject("name","jay gajera 17");
-			mv.addObject("id",40);
-			mv.setViewName("test2");
-			
-			List<Integer> list=new ArrayList<Integer>();
-			list.add(10);
-			list.add(25);
-			mv.addObject("marks",list);
-			return mv;
-			
-			
-		}
 
+
+
+	//for Learning purpose of model
+	@GetMapping("/test")
+	public String Test(Model model)
+	{
+		System.out.println("test page");
+		model.addAttribute("author","jay gajera");
+		model.addAttribute("id",40);
+
+		List<String> friends = new ArrayList<String>();
+		model.addAttribute("f",friends);
+		friends.add("xyz");
+		friends.add("abc");
+
+		return "test";
+	}
+
+	// for learning purpose of model and view ( how data is pass to view)
+
+	@GetMapping("/test2")
+	public ModelAndView Test2()
+	{
+		System.out.println("test page");
+		//create modelandview object
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("name","jay gajera 17");
+		mv.addObject("id",40);
+		mv.setViewName("test2");
+
+		List<Integer> list=new ArrayList<Integer>();
+		list.add(10);
+		list.add(25);
+		mv.addObject("marks",list);
+		return mv;
+	}
+	@GetMapping("profileDisplay")
+	public String profileDisplay(Model model) {
+		String displayusername,displaypassword,displayemail,displayaddress;
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","root123");
+			PreparedStatement stmt = con.prepareStatement("select * from users where username = ?"+";");
+			stmt.setString(1, usernameforclass);
+			ResultSet rst = stmt.executeQuery();
+
+			if(rst.next())
+			{
+				int userid = rst.getInt(1);
+				displayusername = rst.getString(2);
+				displayemail = rst.getString(3);
+				displaypassword = rst.getString(4);
+				displayaddress = rst.getString(5);
+				model.addAttribute("userid",userid);
+				model.addAttribute("username",displayusername);
+				model.addAttribute("email",displayemail);
+				model.addAttribute("password",displaypassword);
+				model.addAttribute("address",displayaddress);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception:"+e);
+		}
+		System.out.println("Hello");
+		return "updateProfile";
+	}
+	@GetMapping(value="aboutus")
+	public String aboutus(Model model) {
+
+		model.addAttribute("pageTitle", "About Us");
+		model.addAttribute("description", "This is the about us page.");
+
+		return "aboutus";
+	}
+	@RequestMapping(value = "updateuser",method=RequestMethod.POST)
+	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address)
+
+	{
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","root123");
+
+			PreparedStatement pst = con.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");
+			pst.setString(1, username);
+			pst.setString(2, email);
+			pst.setString(3, password);
+			pst.setString(4, address);
+			pst.setInt(5, userid);
+			int i = pst.executeUpdate();
+			usernameforclass = username;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception:"+e);
+		}
+		return "redirect:/index";
+	}
 
 //	@GetMapping("carts")
 //	public ModelAndView  getCartDetail()
@@ -157,5 +218,5 @@ public class UserController{
 //		ModelAndView mv= new ModelAndView();
 //		List<Cart>carts = cartService.getCarts();
 //	}
-	  
+
 }
