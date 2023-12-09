@@ -34,9 +34,9 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
+					<li class="nav-item active"><a class="nav-link" href="/userhome">Home
 							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
+					<li class="nav-item active"><a class="nav-link" href="/">Logout</a>
 					</li>
 
 				</ul>
@@ -63,9 +63,9 @@
 
 					<%
 					try {
-						String url = "jdbc:mysql://localhost:3306/springproject";
+						String url = "jdbc:mysql://localhost:3306/ecommjava";
 						Class.forName("com.mysql.cj.jdbc.Driver");
-						Connection con = DriverManager.getConnection(url, "root", "");
+						Connection con = DriverManager.getConnection(url, "root", "admin");
 						Statement stmt = con.createStatement();
 						Statement stmt2 = con.createStatement();
 						ResultSet rs = stmt.executeQuery("select * from cart");
@@ -111,7 +111,6 @@
 		}
 		%>
 	</div>
-
 
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

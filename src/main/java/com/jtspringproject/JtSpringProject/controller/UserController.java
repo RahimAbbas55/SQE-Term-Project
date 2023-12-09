@@ -62,8 +62,8 @@ public class UserController{
 		System.out.println(pass);
 		User u = this.userService.checkLogin(username, pass);
 		System.out.println(u.getUsername());
-		if(u.getUsername().equals(username)) {	
-			
+		if(u.getUsername().equals(username)) {
+			usernameforclass = u.getUsername();
 			res.addCookie(new Cookie("username", u.getUsername()));
 			ModelAndView mView  = new ModelAndView("index");	
 			mView.addObject("user", u);
@@ -157,5 +157,112 @@ public class UserController{
 //		ModelAndView mv= new ModelAndView();
 //		List<Cart>carts = cartService.getCarts();
 //	}
-	  
+
+
+	//Search bar functionality implementation
+	@GetMapping("/search")
+	public ModelAndView searchProducts(@RequestParam(name = "category", required = false) String categoryName) {
+		ModelAndView mView = new ModelAndView("uproduct");
+
+		if (categoryName != null && !categoryName.isEmpty()) {
+			// Search for products in the specified category
+			List<Product> products = productService.getProductsByCategory(categoryName);
+
+			if (products.isEmpty()) {
+				mView.addObject("msg", "No products found in the category: " + categoryName);
+			} else {
+				mView.addObject("products", products);
+			}
+		} else {
+			mView.addObject("msg", "Please enter a valid category for search");
+		}
+
+		return mView;
+	}
+
+	@GetMapping("/userhome")
+	public ModelAndView userHome() {
+		ModelAndView mView  = new ModelAndView("index");
+		List<Product> products = this.productService.getProducts();
+
+		if (products.isEmpty()) {
+			mView.addObject("msg", "No products are available");
+		} else {
+			mView.addObject("products", products);
+		}
+		return mView;
+	}
+
+
+	String usernameforclass = "";
+//	@GetMapping("profileDisplay")
+//	public String profileDisplay(Model model) {
+//		String displayusername,displaypassword,displayemail,displayaddress;
+//		try
+//		{
+//			Class.forName("com.mysql.jdbc.Driver");
+//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
+//			PreparedStatement stmt = con.prepareStatement("select * from users where username = ?"+";");
+//			stmt.setString(1, usernameforclass);
+//			ResultSet rst = stmt.executeQuery();
+//
+//			if(rst.next())
+//			{
+//				int userid = rst.getInt(1);
+//				displayusername = rst.getString(2);
+//				displayemail = rst.getString(3);
+//				displaypassword = rst.getString(4);
+//				displayaddress = rst.getString(5);
+//				model.addAttribute("userid",userid);
+//				model.addAttribute("username",displayusername);
+//				model.addAttribute("email",displayemail);
+//				model.addAttribute("password",displaypassword);
+//				model.addAttribute("address",displayaddress);
+//			}
+//		}
+//		catch(Exception e)
+//		{
+//			System.out.println("Exception:"+e);
+//		}
+//		System.out.println("Hello");
+//		return "updateProfile";
+//	}
+
+	@GetMapping("profileDisplay")
+	public String profileDisplay(Model model) {
+		String displayusername, displaypassword, displayemail, displayaddress;
+		try {
+
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","admin");
+			PreparedStatement stmt = con.prepareStatement("select * from customer where username = ?;");
+			stmt.setString(1, usernameforclass);
+			ResultSet rst = stmt.executeQuery();
+
+			if (rst.next()) {
+				int userid = rst.getInt(1);
+				displayusername = rst.getString(6);
+				displayemail = rst.getString(3);
+				displaypassword = rst.getString(4);
+				displayaddress = rst.getString(2);
+				model.addAttribute("userid", userid);
+				model.addAttribute("username", displayusername);
+				model.addAttribute("email", displayemail);
+				model.addAttribute("password", displaypassword);
+				model.addAttribute("address", displayaddress);
+			}
+		} catch (Exception e) {
+			System.out.println("Exception:" + e);
+		}
+		System.out.println("Hello");
+		return "updateProfile";
+	}
+
+
+	@GetMapping("carts")
+	public String  getCartDetail()
+	{
+		return "cartproduct";
+	}
+
 }

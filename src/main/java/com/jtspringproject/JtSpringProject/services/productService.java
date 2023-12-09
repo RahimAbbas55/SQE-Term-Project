@@ -33,5 +33,8 @@ public class productService {
 		return this.productDao.deletProduct(id);
 	}
 
-	
+
+	public List<Product> getProductsByCategory(String categoryName) {
+		return this.productDao.getProductsByCategory(categoryName);
+	}
 }

@@ -53,4 +53,12 @@ public class productDao {
 		return false;
 	}
 
+	@Transactional
+	public List<Product> getProductsByCategory(String categoryName) {
+		return this.sessionFactory.getCurrentSession()
+				.createQuery("FROM PRODUCT WHERE category.name = :categoryName", Product.class)
+				.setParameter("categoryName", categoryName)
+				.getResultList();
+	}
+
 }

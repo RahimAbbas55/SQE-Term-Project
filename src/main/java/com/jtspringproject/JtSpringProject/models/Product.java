@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 public class Product {
 	@Id
 	@Column(name = "product_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	private String name;
@@ -24,7 +24,12 @@ public class Product {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id",referencedColumnName = "category_id")
 	private Category category;
-	
+
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "category_id", referencedColumnName = "category_id", nullable = true)
+//	private Category category;
+
+
 	private int quantity;
 	
 	private int price;
