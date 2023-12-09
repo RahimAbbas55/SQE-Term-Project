@@ -17,7 +17,6 @@
     <title>Document</title>
 </head>
 
-<<<<<<< HEAD
 
 <style>
     .search{
@@ -56,8 +55,6 @@
     }
 </style>
 
-=======
->>>>>>> 2dc696bb32b6d2852b15de58ed3b81e960a85e27
 <body>
 
 <section class="wrapper">
@@ -88,11 +85,7 @@
                         </li>
                         <!-- End of SortBy dropdown -->
                         <li class="nav-item active">
-<<<<<<< HEAD
                             <a class="nav-link" th:href="@{/}" href="/carts">CART</a>
-=======
-                            <a class="nav-link" th:href="@{/}" href="/user/products">CART</a>
->>>>>>> 2dc696bb32b6d2852b15de58ed3b81e960a85e27
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="profileDisplay" >Profile</a>
@@ -103,7 +96,6 @@
                     </ul>
                 </div>
             </div>
-<<<<<<< HEAD
 
 
             <form action="/search" method="get">
@@ -115,10 +107,6 @@
 
         </nav>
 
-=======
-        </nav>
-
->>>>>>> 2dc696bb32b6d2852b15de58ed3b81e960a85e27
         <div class="row">
             <c:forEach var="product" items="${products}">
                 <div class="col-md-3">
