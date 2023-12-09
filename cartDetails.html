@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    
+    .cart {
+        width: 80%;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        padding: 20px;
+        background-color: #fff;
+    }
+    
+    .item {
+        display: flex;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 15px;
+    }
+    
+    .item-details {
+        flex: 1;
+    }
+    
+    .item-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    
+    .item-name {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+    }
+    
+    .item-type {
+        margin-top: 5px;
+        color: #666;
+    }
+    
+    .item-price,
+    .item-quantity {
+        margin: 5px 0;
+        color: #444;
+    }
+    .item-description {
+      color: #777;
+  }
+  
+  .item-total {
+      margin-top: 10px;
+      font-weight: bold;
+  }
+    </style>
+</head>
+<body>
+  <div class="cart">
+      <div class="item">
+          <div class="item-details">
+              <h2 class="item-name">Product Name</h2>
+              <p class="item-type">Product Type</p>
+              <p class="item-description">Product Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+          <div class="item-info">
+              <p class="item-price">$99.99</p>
+              <p class="item-quantity">Quantity: 2</p>
+              <p class="item-total">Total: $199.98</p>
+          </div>
+      </div>
+  </div>
+</body>
+</html>
