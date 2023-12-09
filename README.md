@@ -34,3 +34,6 @@ Run all test methods that match pattern 'testHello*' from a test class.
 $ mvn -Dtest=TestApp1#testHello* test
 Run all test methods match pattern 'testHello*' and 'testMagic*' from a test class.
 $ mvn -Dtest=TestApp1#testHello*+testMagic* test
+
+
+#added maven file
