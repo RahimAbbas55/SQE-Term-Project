@@ -47,7 +47,7 @@
 	<c:forEach var="product" items="products">
 	<div class="jumbotron container border border-info">
 		<h3>Update Existing Product</h3>
-		<form action="/products/update/${product.id}" method="post">
+		<form action="products/update/${product.id}" method="post">
 			<div class="row">
 				<div class="col-sm-5">
 					

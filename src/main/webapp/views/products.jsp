@@ -98,15 +98,18 @@
 					</td>
 
 					<td>
-					<form action="products/delete" method="get">
+						<form action="/admin/products/delete" method="post">
 							<input type="hidden" name="id" value="${product.id}">
 							<input type="submit" value="Delete" class="btn btn-danger">
-					</form>
+						</form>
+
+
 					</td>
 					<td>
-					<form action="products/update/${product.id}" method="get">
-                        <input type="submit" value="Update" class="btn btn-warning">
-                    </form>
+						<form action="products/update/${product.id}" method="get">
+							<input type="submit" value="Update" class="btn btn-warning">
+						</form>
+
 
 					</td>
 

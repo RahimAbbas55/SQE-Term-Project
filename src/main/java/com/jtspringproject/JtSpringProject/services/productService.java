@@ -37,4 +37,14 @@ public class productService {
 	public List<Product> getProductsByCategory(String categoryName) {
 		return this.productDao.getProductsByCategory(categoryName);
 	}
+
+
+	public List<Product> getProducts(String sortBy) {
+		return this.productDao.getProducts(sortBy);
+	}
+
+
+
+
+
 }

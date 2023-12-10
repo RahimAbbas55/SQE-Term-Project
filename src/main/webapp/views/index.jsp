@@ -93,17 +93,23 @@
                         <li class="nav-item active">
                             <a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a>
                         </li>
+                        <!-- Update the href attribute to match the correct URL -->
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/about">About Us</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
 
 
-            <form action="/search" method="get">
+            <form action="/search" method="get" onsubmit="return validateSearch()">
                 <div class="search">
-                    <input type="text" name="category" placeholder="Search" />
-                    <button type="submit" >Search</button>
+                    <input type="text" name="category" id="searchInput" placeholder="Search" />
+                    <button type="submit">Search</button>
                 </div>
             </form>
+
 
         </nav>
 
@@ -130,12 +136,29 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-<!-- Add this script section at the end of your HTML body -->
+
 <script>
+
+    function validateSearch() {
+        var searchInput = document.getElementById('searchInput').value.trim();
+
+        if (searchInput === '') {
+            alert('Please enter a search term');
+            return false;
+        }
+        return true;
+    }
+
+    // Function to reload the page with the selected sorting option
     // Function to reload the page with the selected sorting option
     function sortBy(value) {
-        window.location.href = '/user/products?sort=' + value;
+        var currentUrl = window.location.href;
+        var separator = currentUrl.indexOf('?') !== -1 ? '&' : '?';
+        var newUrl = currentUrl + separator + 'sort=' + value;
+        console.log(newUrl); // Log the new URL to the console
+        window.location.href = newUrl;
     }
+
 
     // Attach an event listener to the dropdown items
     document.addEventListener('DOMContentLoaded', function () {

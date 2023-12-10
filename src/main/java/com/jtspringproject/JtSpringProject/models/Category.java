@@ -7,7 +7,7 @@ public class Category {
 	private int category_counter = 0;
 	@Id
 	@Column(name = "category_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private String name;

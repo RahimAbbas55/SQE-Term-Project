@@ -1,18 +1,14 @@
 package com.jtspringproject.JtSpringProject.controller;
-
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.util.List;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.jtspringproject.JtSpringProject.models.Category;
 import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.models.User;
@@ -20,7 +16,6 @@ import com.jtspringproject.JtSpringProject.services.categoryService;
 import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.userService;
 import com.mysql.cj.protocol.Resultset;
-
 import net.bytebuddy.asm.Advice.This;
 import net.bytebuddy.asm.Advice.OffsetMapping.ForOrigin.Renderer.ForReturnTypeName;
 
@@ -186,30 +181,30 @@ public class AdminController {
 
 	@GetMapping("products/update/{id}")
 	public ModelAndView updateproduct(@PathVariable("id") int id) {
-
 		ModelAndView mView = new ModelAndView("productsUpdate");
 		Product product = this.productService.getProduct(id);
 		List<Category> categories = this.categoryService.getCategories();
-
-		mView.addObject("categories",categories);
+		mView.addObject("categories", categories);
 		mView.addObject("product", product);
 		return mView;
 	}
 
-	@RequestMapping(value = "products/update/{id}",method=RequestMethod.POST)
-	public String updateProduct(@PathVariable("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
-	{
-
-//		this.productService.updateProduct();
+	@RequestMapping(value = "products/update/{id}", method = RequestMethod.POST)
+	public String updateProduct(@PathVariable("id") int id, @RequestParam("name") String name,
+								@RequestParam("categoryid") int categoryId, @RequestParam("price") int price,
+								@RequestParam("weight") int weight, @RequestParam("quantity") int quantity,
+								@RequestParam("description") String description,
+								@RequestParam("productImage") String productImage) {
 		return "redirect:/admin/products";
 	}
 
-	@GetMapping("products/delete")
-	public String removeProduct(@RequestParam("id") int id)
-	{
+
+	@PostMapping("/products/delete")
+	public String deleteProduct(@RequestParam("id") int id) {
 		this.productService.deleteProduct(id);
 		return "redirect:/admin/products";
 	}
+
 
 	@PostMapping("products")
 	public String postproduct() {
@@ -257,5 +252,14 @@ public class AdminController {
 		}
 		return "redirect:/index";
 	}
+
+
+	@PostMapping("customers/delete")
+	public String removeCustomer(@RequestParam("id") int id) {
+		this.userService.deleteUser(id);
+		return "redirect:/admin/customers";
+	}
+
+
 
 }
